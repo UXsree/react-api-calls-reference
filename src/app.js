@@ -6,21 +6,31 @@ class App extends Component{
   constructor(props){
     super(props);
     this.state = {
-      query: ''
+      query: '',
+      title: null
     }
   }
 
   search(){
     console.log('this.state', this.state);
-    const BASE_URL = "https://api.spotify.com/v1/search?"
-    const FETCH_URL = `${BASE_URL}q=${this.state.query}&type=artist&limit=1`;
+    const BASE_URL = "https://www.googleapis.com/books/v1/volumes?"
+    const FETCH_URL = `${BASE_URL}q=${this.state.query}+inauthor`;
     console.log('FETCH_URL: ', FETCH_URL);
+    fetch(FETCH_URL,{
+      method: 'GET'
+    })
+    .then(response => response.json())
+    .then(json =>{
+      const tile = json.items[0].volumeInfo.title;
+      console.log('json',json);
+      console.log('title: ',json.items[0].volumeInfo.title);
+      });
   }
 
   render(){
     return(
       <div className="App">
-      <div className="App-title"> Music Master</div>
+      <div className="App-title"> Google Books API</div>
       <FormGroup>
         <InputGroup>
           <FormControl type="text" placeholder="search for the artist"
