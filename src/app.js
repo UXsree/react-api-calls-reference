@@ -23,6 +23,11 @@ class App extends Component{
           <FormControl type="text" placeholder="search for the artist"
             query={this.state.query}
             onChange={event=>this.setState({query: event.target.value})}
+            onKeyPress={event=>{
+              if(event.key === 'Enter'){
+                this.search();
+              }
+            }}
           />
           <InputGroup.Addon onClick={()=>this.search()}>
             <Glyphicon glyph="search"></Glyphicon>
