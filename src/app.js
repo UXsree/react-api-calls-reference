@@ -1,29 +1,33 @@
 import React, { Component } from 'react';
 import './app.css';
 import { FormGroup, FormControl, InputGroup, Glyphicon } from 'react-bootstrap';
+import Profile from './profile';
 
 class App extends Component{
   constructor(props){
     super(props);
     this.state = {
       query: '',
-      title: null
+      title: '',
+      publishedDate: ''
     }
   }
 
   search(){
     console.log('this.state', this.state);
     const BASE_URL = "https://www.googleapis.com/books/v1/volumes?"
-    const FETCH_URL = `${BASE_URL}q=${this.state.query}+inauthor`;
+    const FETCH_URL = `${BASE_URL}q=${this.state.query}&intitle&maxResults=1`;
     console.log('FETCH_URL: ', FETCH_URL);
     fetch(FETCH_URL,{
       method: 'GET'
     })
     .then(response => response.json())
     .then(json =>{
-      const tile = json.items[0].volumeInfo.title;
-      console.log('json',json);
-      console.log('title: ',json.items[0].volumeInfo.title);
+      const title = json.items[0].volumeInfo.title;
+      const publishedDate = json.items[0].volumeInfo.publishedDate;
+       console.log('json',json);
+      // console.log('publishedDate: ', json.items[0].volumeInfo.publishedDate);
+      this.setState({title:title , publishedDate:publishedDate});
       });
   }
 
@@ -48,8 +52,10 @@ class App extends Component{
         </InputGroup>
       </FormGroup>
       <div className="Profile">
-        <div>Artist Picture</div>
-        <div>Artist Name</div>
+        <Profile
+          title = {this.state.title}
+          publishedDate={this.state.publishedDate}
+        />
       </div>
       <div className="Gallery">
         Gallery
