@@ -8,8 +8,9 @@ class App extends Component{
     super(props);
     this.state = {
       query: '',
-      title: '',
-      publishedDate: ''
+      book1: null
+      // imageurl: '',
+      // publishedDate: ''
     }
   }
 
@@ -23,11 +24,13 @@ class App extends Component{
     })
     .then(response => response.json())
     .then(json =>{
-      const title = json.items[0].volumeInfo.title;
-      const publishedDate = json.items[0].volumeInfo.publishedDate;
-       console.log('json',json);
+      const book1 = json.items[0];
+      // const publishedDate = json.items[0].volumeInfo.publishedDate;
+      // const imageurl = json.items["0"].volumeInfo.imageLinks.thumbnail;
+       console.log('book1 from response json in app.js ..............',book1);
       // console.log('publishedDate: ', json.items[0].volumeInfo.publishedDate);
-      this.setState({title:title , publishedDate:publishedDate});
+      //console.log('image url///////////', imageurl);
+      this.setState({book1});
       });
   }
 
@@ -53,8 +56,7 @@ class App extends Component{
       </FormGroup>
       <div className="Profile">
         <Profile
-          title = {this.state.title}
-          publishedDate={this.state.publishedDate}
+          book1 = {this.state.book1}
         />
       </div>
       <div className="Gallery">
